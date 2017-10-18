@@ -16,6 +16,27 @@ import (
 
 var s *mgo.Session
 
+func main() {
+	var err error
+	s, err = mgo.Dial("mongodb://localhost:27017")
+	if err != nil {
+		panic(err)
+	}
+	defer s.Close()
+
+	s.SetMode(mgo.Monotonic, true)
+	ensureIndex(s)
+
+	router := gin.Default()
+	router.POST("/signup", create)
+	router.GET("/users", allUsers)
+	router.GET("/users/:username", userByUsername)
+	router.PUT("/users/:username", update)
+	router.POST("/users/:username", delete)
+
+	router.Run(":8080")
+}
+
 func ensureIndex(s *mgo.Session) {
 	session := s.Copy()
 	defer session.Close()
