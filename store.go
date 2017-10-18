@@ -14,6 +14,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func ErrorWithJSON(c *gin.Context, message string, code int) {
+	c.Header("Content-Type", "application/json; charset=utf-8")
+	c.JSON(code, message)
+	fmt.Printf("{message: %q}", message)
+}
+
 
 func create(c *gin.Context) {
 	session := s.Copy()
