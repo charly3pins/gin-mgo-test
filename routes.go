@@ -14,8 +14,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var s *mgo.Session
-
 func main() {
 	var err error
 	s, err = mgo.Dial("mongodb://localhost:27017")
